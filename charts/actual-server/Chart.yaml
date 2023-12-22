@@ -5,4 +5,4 @@ sources:
   - https://github.com/actualbudget/actual
 name: actual-server
 type: application
-version: 0.1.0
+version: 0.1.1

@@ -7,7 +7,7 @@ A Helm chart for Actual - a local-first personal finance app.
 ```console
 helm repo add kunleoladimeji https://charts.olakunleoladimeji.com/helm-charts
 helm repo update
-helm install my-release kunleoladimeji/actual-budget-server
+helm install my-release kunleoladimeji/actual-server
 ```
 
 ## Introduction
@@ -27,7 +27,7 @@ To install the chart with the release name `my-release`:
 ```console
 helm repo add kunleoladimeji https://charts.olakunleoladimeji.com/helm-charts
 helm repo update
-helm install my-release kunleoladimeji/actual-budget-server
+helm install my-release kunleoladimeji/actual-server
 ```
 
 These commands deploy Actual Budget on the Kubernetes cluster in the default configuration. The [Values](#values) section lists the values that can be configured during installation.
