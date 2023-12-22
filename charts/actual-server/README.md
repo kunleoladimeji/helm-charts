@@ -10,6 +10,13 @@ helm repo update
 helm install my-release kunleoladimeji/actual-server
 ```
 
+---
+**NOTE**
+
+Actual Server recommends using HTTPS see [here](https://actualbudget.org/docs/troubleshooting/shared-array-buffer/).
+
+---
+
 ## Introduction
 
 <INTRODUCTION>
