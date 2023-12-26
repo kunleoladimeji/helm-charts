@@ -3,6 +3,18 @@ entries:
   actual-server:
   - apiVersion: v2
     appVersion: 23.12.0
+    created: "2023-12-26T10:08:13.99422413Z"
+    description: A Helm chart for Actual - a local-first personal finance app.
+    digest: 725fe19a650088565b5b5f2532b0102e5e5f60016cb40d0df41c87c0d64414ae
+    name: actual-server
+    sources:
+    - https://github.com/actualbudget/actual
+    type: application
+    urls:
+    - https://github.com/kunleoladimeji/helm-charts/releases/download/actual-server-0.1.2/actual-server-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 23.12.0
     created: "2023-12-22T01:07:37.39936929Z"
     description: A Helm chart for Actual - a local-first personal finance app.
     digest: c913e890f427992655d924c51893b688454128ebb6c359d4e61bc30664fe8bcd
@@ -25,6 +37,22 @@ entries:
     urls:
     - https://github.com/kunleoladimeji/helm-charts/releases/download/actual-server-0.1.0/actual-server-0.1.0.tgz
     version: 0.1.0
+  docuseal:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-12-26T10:08:14.116304407Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://cetic.github.io/helm-charts
+      version: 0.2.5
+    description: A Helm chart for Kubernetes
+    digest: 71e43fe9ce5d38a522ed8ae8aebaec80e87afdea14c0db9be6dc0a3e4bf2aaeb
+    name: docuseal
+    type: application
+    urls:
+    - https://github.com/kunleoladimeji/helm-charts/releases/download/docuseal-0.1.0/docuseal-0.1.0.tgz
+    version: 0.1.0
   mysql-innodbcluster:
   - apiVersion: v2
     appVersion: 8.2.0
@@ -38,4 +66,4 @@ entries:
     urls:
     - https://github.com/kunleoladimeji/helm-charts/releases/download/mysql-innodbcluster-2.1.1/mysql-innodbcluster-2.1.1.tgz
     version: 2.1.1
-generated: "2023-12-22T01:07:37.399381413Z"
+generated: "2023-12-26T10:08:14.116323172Z"
