@@ -1,20 +1,20 @@
 # benotes
 
-A Helm chart for Kubernetes
+A Helm chart for Benotes application
 
 ## TL;DR;
 
 ```console
-helm repo add christianknell https://christianknell.github.io/helm-charts
+helm repo add kunleoladimeji https://charts.olakunleoladimeji.com/helm-charts
 helm repo update
-helm install my-release christianknell/<CHARTNAME>
+helm install my-release kunleoladimeji/benotes
 ```
 
 ## Introduction
 
 <INTRODUCTION>
 
-This chart bootstraps the [<APPLICATION_NAME>](<APPLICATION_LINK>) on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps the [Benotes](<https://benotes.org/>) on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
@@ -25,12 +25,12 @@ This chart bootstraps the [<APPLICATION_NAME>](<APPLICATION_LINK>) on a [Kuberne
 To install the chart with the release name `my-release`:
 
 ```console
-helm repo add christianknell https://christianknell.github.io/helm-charts
+helm repo add kunleoladimeji https://charts.olakunleoladimeji.com/helm-charts
 helm repo update
-helm install my-release christianknell/<CHARTNAME>
+helm install my-release kunleoladimeji/benotes
 ```
 
-These commands deploy <APPLICATION_NAME> on the Kubernetes cluster in the default configuration. The [Values](#values) section lists the values that can be configured during installation.
+These commands deploy Benotes on the Kubernetes cluster in the default configuration. The [Values](#values) section lists the values that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
 
@@ -49,6 +49,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity settings for pod assignment |
+| appKey | string | `"change-me"` |  |
 | autoscaling.enabled | bool | `false` | Enable Horizontal POD autoscaling  |
 | autoscaling.maxReplicas | int | `100` | Maximum number of replicas |
 | autoscaling.minReplicas | int | `1` | Minimum number of replicas |
@@ -57,16 +58,21 @@ The command removes all the Kubernetes components associated with the chart and 
 | extraEnv | list | `[]` | additional environment variables to be added to the pods |
 | fullnameOverride | string | `""` | String to fully override `"benotes.fullname"` |
 | image.pullPolicy | string | `"Always"` | image pull policy |
-| image.registry | string | `"<IMAGE_REGISTRY>"` | image registry |
-| image.repository | string | `"<IMAGE_REPOSITORY>"` | image repository |
-| image.tag | string | `"<IMAGE_TAG>"` | Overrides the image tag |
+| image.registry | string | `"docker.io"` | image registry |
+| image.repository | string | `"fr0tt/benotes"` | image repository |
+| image.tag | string | `"2.8.2"` | Overrides the image tag |
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository. |
 | ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
 | ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
 | ingress.enabled | bool | `false` | Enable ingress record generation |
 | ingress.hosts | list | see [values.yaml](./values.yaml) | An array with hosts and paths |
 | ingress.tls | list | `[]` | An array with the tls configuration |
+| jwtSecret | string | `"change-me"` |  |
 | mail.enabled | bool | `false` |  |
+| mail.fromAddress | string | `nil` |  |
+| mail.host | string | `nil` |  |
+| mail.password | string | `nil` |  |
+| mail.username | string | `nil` |  |
 | mysql.enabled | bool | `false` |  |
 | nameOverride | string | `""` | Provide a name in place of `benotes` |
 | nodeSelector | object | `{}` | Node labels for pod assignment |
@@ -74,7 +80,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | persistence.annotations | object | `{}` | Annotations to be added to the PersistentVolumeClaim |
 | persistence.enabled | bool | `false` | use a PVC to persist data |
 | persistence.existingClaim | string | `""` | provide an existing PersistentVolumeClaim |
-| persistence.resources | object | `{}` | represents the minimum and maximum resources the volume should have. |
+| persistence.path | string | `"/var/www/storage"` |  |
+| persistence.size | string | `"1Gi"` |  |
 | persistence.storageClassName | string | `""` | Name of the StorageClass required by the claim. |
 | podAnnotations | object | `{}` | Annotations to be added to the pods |
 | podSecurityContext | object | `{}` | pod-level security context |
@@ -88,6 +95,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| sqlite.dbPath | string | `"database.sqlite"` |  |
 | sqlite.enabled | bool | `true` |  |
 | tolerations | list | `[]` | Toleration labels for pod assignment |
 

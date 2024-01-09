@@ -130,8 +130,8 @@ persistence:
   existingClaim: ""
   # -- Name of the StorageClass required by the claim.
   storageClassName: ""
-  # -- represents the minimum and maximum resources the volume should have.
-  resources: {}
+  size: 1Gi
+  path: /var/www/storage
 
 mail:
   enabled: false

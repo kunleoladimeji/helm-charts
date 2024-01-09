@@ -83,7 +83,7 @@ spec:
           {{- if .Values.persistence.enabled }}
           volumeMounts:
             - name: data
-              mountPath: /var/www/storage
+              mountPath: {{ .Values.persistence.path }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
