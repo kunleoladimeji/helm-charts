@@ -34,7 +34,26 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "benotes.fullname" . }}
           env:
+            - name: DB_CONNECTION
+            {{- if .Values.sqlite.enabled }}
+              value: sqlite
+            {{- else if .Values.postgresql.enabled }} 
+              value: psql 
+            {{- else }} 
+              value: mysql
+            {{- end }}
+            - name: DB_DATABASE
+            {{- if .Values.mysql.enabled }}
+              value: {{ .Values.mysql.auth.database }}
+            {{- else if .Values.sqlite.enabled }}
+              value: /var/www/storage/{{ .Values.sqlite.dbPath }}
+            {{- else }}
+              value: {{ .Values.postgresql.auth.database }}
+            {{- end }}
             {{- range .Values.extraEnv }}
             {{- if and (.name) (.value) }}
             - name: {{ .name | quote }}

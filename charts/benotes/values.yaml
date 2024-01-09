@@ -4,6 +4,10 @@ nameOverride: ""
 # -- String to fully override `"benotes.fullname"`
 fullnameOverride: ""
 
+appKey: change-me
+
+jwtSecret: change-me
+
 image:
   # -- image registry
   registry: docker.io
@@ -131,6 +135,10 @@ persistence:
 
 mail:
   enabled: false
+  host:
+  username:
+  password:
+  fromAddress:
 
 # See subchart details at https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 postgresql:
@@ -142,13 +150,4 @@ mysql:
 
 sqlite:
   enabled: true
-
-backup:
-  enabled: true
-  s3:
-    enabled: false
-    accessKeyID: 
-    secretAccessKey: 
-    region: 
-    bucket: 
-    endpoint: 
+  dbPath: database.sqlite
