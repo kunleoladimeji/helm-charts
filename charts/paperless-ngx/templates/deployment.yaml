@@ -35,6 +35,16 @@ spec:
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            {{- if .Values.redis.enabled }}
+            - name: PAPERLESS_REDIS
+            {{- if .Values.redis.auth.enabled }}
+              value: {{ printf "redis://:%s@%s-redis:6379" .Values.redis.auth.password .Release.Name }}
+            {{- else }}
+              value: {{ printf "redis://%s-redis:6379" .Release.Name }}
+            {{- end }}
+            {{- else }}
+              value: {{ .Values.redis.externalRedisUrl }}
+            {{- end }}
             {{- if .Values.tika.enabled }}
             - name: PAPERLESS_TIKA_ENABLED
               value: "1"
@@ -84,9 +94,15 @@ spec:
         - name: gotenberg
           image: "{{ .Values.gotenberg.image.registry }}/{{ .Values.gotenberg.image.repository }}:{{ .Values.gotenberg.image.tag | default .Chart.AppVersion }}"
         {{- end }}
+          ports:
+            - name: gotenberg-http
+              containerPort: {{ .Values.gotenberg.port }}
         {{- if .Values.tika.enabled }}
-        - name: gotenberg
+        - name: tika
           image: "{{ .Values.tika.image.registry }}/{{ .Values.tika.image.repository }}:{{ .Values.tika.image.tag | default .Chart.AppVersion }}"
+          ports:
+            - name: tika-http
+              containerPort: {{ .Values.gotenberg.port }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
