@@ -148,6 +148,8 @@ postgresql:
 mysql:
   enabled: false
 
+externalDbUrl: ""
+
 sqlite:
   enabled: true
   dbPath: database.sqlite

@@ -38,6 +38,10 @@ spec:
             - secretRef:
                 name: {{ include "benotes.fullname" . }}
           env:
+            {{- if .Values.externalDbUrl }}
+            - name: DATABASE_URL
+              value: {{ .Values.externalDbUrl }}
+            {{- else }}
             - name: DB_CONNECTION
             {{- if .Values.sqlite.enabled }}
               value: sqlite
@@ -53,6 +57,7 @@ spec:
               value: /var/www/storage/{{ .Values.sqlite.dbPath }}
             {{- else }}
               value: {{ .Values.postgresql.auth.database }}
+            {{- end }}
             {{- end }}
             {{- range .Values.extraEnv }}
             {{- if and (.name) (.value) }}
