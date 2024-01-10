@@ -85,7 +85,7 @@ spec:
           volumeMounts:
             - name: env-secrets
               mountPath: /var/www/.env
-              subPath: /var/www/.env
+              subPath: .env
           {{- if .Values.persistence.enabled }}
             - name: data
               mountPath: {{ .Values.persistence.path }}
