@@ -34,9 +34,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-            - secretRef:
-                name: {{ include "benotes.fullname" . }}
           env:
             {{- if .Values.externalDbUrl }}
             - name: DATABASE_URL
@@ -85,8 +82,11 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if .Values.persistence.enabled }}
           volumeMounts:
+            - name: env-secrets
+              mountPath: /var/www/.env
+              subPath: /var/www/.env
+          {{- if .Values.persistence.enabled }}
             - name: data
               mountPath: {{ .Values.persistence.path }}
           {{- end }}
@@ -102,8 +102,11 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.persistence.enabled }}
       volumes:
+        - name: env-secrets
+          secret:
+            secretName: {{ include "benotes.fullname" . }}
+      {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "benotes.pvcName" . }}
