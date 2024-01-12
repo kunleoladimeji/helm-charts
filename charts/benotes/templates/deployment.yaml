@@ -34,28 +34,18 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef: 
+                name: {{ include "benotes.fullname" . }}
           env:
-            {{- if .Values.externalDbUrl }}
-            - name: DATABASE_URL
-              value: {{ .Values.externalDbUrl }}
-            {{- else }}
+            {{- if and .Values.sqlite.enabled (not .Values.externalDbUrl) }}
             - name: DB_CONNECTION
-            {{- if .Values.sqlite.enabled }}
               value: sqlite
-            {{- else if .Values.postgresql.enabled }} 
-              value: psql 
-            {{- else }} 
-              value: mysql
-            {{- end }}
             - name: DB_DATABASE
-            {{- if .Values.mysql.enabled }}
-              value: {{ .Values.mysql.auth.database }}
-            {{- else if .Values.sqlite.enabled }}
               value: /var/www/storage/{{ .Values.sqlite.dbPath }}
-            {{- else }}
-              value: {{ .Values.postgresql.auth.database }}
             {{- end }}
-            {{- end }}
+            - name: APP_PORT
+              value: {{ .Values.service.port | quote }}
             {{- range .Values.extraEnv }}
             {{- if and (.name) (.value) }}
             - name: {{ .name | quote }}
@@ -82,10 +72,6 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          volumeMounts:
-            - name: env-secrets
-              mountPath: /var/www/.env
-              subPath: .env
           {{- if .Values.persistence.enabled }}
             - name: data
               mountPath: {{ .Values.persistence.path }}
@@ -102,11 +88,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
-        - name: env-secrets
-          secret:
-            secretName: {{ include "benotes.fullname" . }}
       {{- if .Values.persistence.enabled }}
+      volumes:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "benotes.pvcName" . }}
