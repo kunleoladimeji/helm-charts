@@ -14,7 +14,7 @@ helm install my-release kunleoladimeji/benotes
 
 <INTRODUCTION>
 
-This chart bootstraps the [Benotes](<https://benotes.org/>) on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps the [Benotes](<https://benotes.org>) on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
@@ -49,25 +49,30 @@ The command removes all the Kubernetes components associated with the chart and 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity settings for pod assignment |
-| appKey | string | `"change-me"` |  |
-| autoscaling.enabled | bool | `false` | Enable Horizontal POD autoscaling  |
+| autoscaling.enabled | bool | `false` | Enable Horizontal POD autoscaling |
 | autoscaling.maxReplicas | int | `100` | Maximum number of replicas |
 | autoscaling.minReplicas | int | `1` | Minimum number of replicas |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` | Target CPU utilization percentage |
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` | Target Memory utilization percentage |
+| config.appDebug | string | `"false"` |  |
+| config.appEnv | string | `"production"` |  |
+| config.appKey | string | `"change-me"` |  |
+| config.appTz | string | `"UTC"` |  |
+| config.cacheDriver | string | `"file"` |  |
+| config.jwtSecret | string | `"change-me"` |  |
+| externalDbUrl | string | `""` |  |
 | extraEnv | list | `[]` | additional environment variables to be added to the pods |
 | fullnameOverride | string | `""` | String to fully override `"benotes.fullname"` |
 | image.pullPolicy | string | `"Always"` | image pull policy |
 | image.registry | string | `"docker.io"` | image registry |
 | image.repository | string | `"fr0tt/benotes"` | image repository |
-| image.tag | string | `"2.8.2"` | Overrides the image tag |
+| image.tag | string | `"latest"` | Overrides the image tag |
 | imagePullSecrets | list | `[]` | If defined, uses a Secret to pull an image from a private Docker registry or repository. |
 | ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
 | ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
 | ingress.enabled | bool | `false` | Enable ingress record generation |
 | ingress.hosts | list | see [values.yaml](./values.yaml) | An array with hosts and paths |
 | ingress.tls | list | `[]` | An array with the tls configuration |
-| jwtSecret | string | `"change-me"` |  |
 | mail.enabled | bool | `false` |  |
 | mail.fromAddress | string | `nil` |  |
 | mail.host | string | `nil` |  |
@@ -104,7 +109,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```console
-helm install my-release -f values.yaml christianknell/<CHARTNAME>
+helm install my-release -f values.yaml kunleoladimeji/<CHARTNAME>
 ```
 
 ----------------------------------------------
