@@ -40,6 +40,25 @@ entries:
   benotes:
   - apiVersion: v2
     appVersion: 2.8.2
+    created: "2024-01-12T09:56:32.890572717Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.16.1
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.28
+    description: A Helm chart for Benotes application
+    digest: 3260576aee702f1109d3a6b5f5d613bc6bed18f303d288b46df8d91ab522ecde
+    name: benotes
+    type: application
+    urls:
+    - https://github.com/kunleoladimeji/helm-charts/releases/download/benotes-0.1.7/benotes-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 2.8.2
     created: "2024-01-10T09:27:37.657388331Z"
     dependencies:
     - condition: mysql.enabled
@@ -220,4 +239,4 @@ entries:
     urls:
     - https://github.com/kunleoladimeji/helm-charts/releases/download/paperless-ngx-0.1.0/paperless-ngx-0.1.0.tgz
     version: 0.1.0
-generated: "2024-01-10T09:27:37.657413658Z"
+generated: "2024-01-12T09:56:32.890596672Z"
