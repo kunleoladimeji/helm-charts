@@ -30,6 +30,22 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      # Fix for permissions issue
+      {{- if .Values.persistence.enabled }}
+      initContainers:
+        - name: fix-permissions
+          image: php:8.1-fpm-alpine
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.persistence.path }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              cd {{ .Values.persistence.path }}
+              mkdir -p framework/sessions framework/views framework/cache
+              chown -R www-data:www-data {{ .Values.persistence.path }} && chmod -R 774 {{ .Values.persistence.path }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -46,6 +62,16 @@ spec:
             {{- end }}
             - name: APP_PORT
               value: {{ .Values.service.port | quote }}
+            - name: CACHE_DRIVER
+              value: {{ .Values.config.cacheDriver }}
+            - name: USE_FILESYSTEM
+              value: "true"
+            - name: APP_TIMEZONE
+              value: {{ .Values.config.appTz }}
+            - name: APP_ENV
+              value: {{ .Values.config.appEnv }}
+            - name: APP_DEBUG
+              value: {{ .Values.config.appDebug | quote }}
             {{- range .Values.extraEnv }}
             {{- if and (.name) (.value) }}
             - name: {{ .name | quote }}
